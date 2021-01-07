@@ -72,7 +72,8 @@
         "verbose": true,
         "coveragePathIgnorePatterns": [
             "/node_modules/",
-            "/build/"
+            "/.serverless/",
+            "/.webpack/"
         ],
         "bail": 1
     }
