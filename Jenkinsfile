@@ -28,7 +28,7 @@ pipeline {
                 dir('api') {
                     sh 'npm cache clean --force'
                     sh 'npm uninstall'
-                    sh 'npm install'
+                    sh 'npm install --no-optional'
                     sh 'npm audit fix --force'
                 }
             }
