@@ -26,7 +26,6 @@ pipeline {
         stage('Install packages') {
             steps {
                 dir('api') {
-                    sh 'npm cache clean'
                     sh 'npm uninstall'
                     sh 'npm install --no-optional'
                     sh 'npm audit fix'
