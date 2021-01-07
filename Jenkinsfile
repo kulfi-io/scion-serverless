@@ -26,7 +26,7 @@ pipeline {
         stage('Install packages') {
             steps {
                 dir('api') {
-                    sh 'npm install'
+                    sh 'npm install --no-optional'
                 }
             }
         }
