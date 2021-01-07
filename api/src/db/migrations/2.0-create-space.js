@@ -21,10 +21,11 @@ module.exports = {
                 allowNull: false,
             },
             location: {
-                type: Sequelize.POINT,
+                type: Sequelize.GEOGRAPHY,
             },
             private: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             address: {
                 type: Sequelize.STRING,
