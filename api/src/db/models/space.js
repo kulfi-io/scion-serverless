@@ -31,7 +31,7 @@ const space = (sequelize, DataTypes) => {
             displayName: DataTypes.STRING,
             name: DataTypes.STRING,
             description: DataTypes.STRING,
-            location: DataTypes.GEOGRAPHY,
+            location: DataTypes.GEOMETRY("POINT", 4326),
             private: DataTypes.BOOLEAN,
             address: DataTypes.STRING,
             address2: DataTypes.STRING,
