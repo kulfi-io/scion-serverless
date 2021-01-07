@@ -1,7 +1,7 @@
 {
     "name": "api",
     "version": "1.0.0",
-    "description": "graphql api for scion",
+    "description": "graphql serverless api for scion",
     "main": "index.js",
     "scripts": {
         "dev-db-migrate-undo": "npx sequelize db:migrate:undo:all ",
