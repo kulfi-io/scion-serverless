@@ -29,7 +29,7 @@ pipeline {
                     sh 'npm cache clean --force'
                     sh 'npm uninstall'
                     sh 'npm install'
-                    sh 'npm audit fix'
+                    sh 'npm audit fix --force'
                 }
             }
         }
