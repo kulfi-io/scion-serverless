@@ -21,7 +21,7 @@ module.exports = {
                 allowNull: false,
             },
             location: {
-                type: Sequelize.GEOMETRY("POINT"),
+                type: Sequelize.GEOMETRY,
             },
             private: {
                 type: Sequelize.BOOLEAN,
