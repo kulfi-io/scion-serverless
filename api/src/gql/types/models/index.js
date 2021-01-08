@@ -30,7 +30,7 @@ const userRoleModel = new GraphQLObjectType({
     },
 });
 
-const resourceModel = new GraphQLObjectType({
+const permissionResourceModel = new GraphQLObjectType({
     name: "resourceModel",
     type: "query",
     fields: {
@@ -47,7 +47,7 @@ const userRoleResourceModel = new GraphQLObjectType({
         id: { type: GraphQLInt },
         name: { type: GraphQLString },
         isDefault: { type: GraphQLBoolean },
-        resources: { type: GraphQLList(resourceModel) },
+        resources: { type: GraphQLList(permissionResourceModel) },
     },
 });
 
@@ -82,7 +82,7 @@ export const loginModel = new GraphQLObjectType({
 //#endregion
 
 //#region Role
-const displayModel = new GraphQLObjectType({
+const roleDisplayModel = new GraphQLObjectType({
     name: "roleDisplayModel",
     type: "query",
     fields: {
@@ -94,6 +94,32 @@ const displayModel = new GraphQLObjectType({
 
 export const roleModel = new GraphQLObjectType({
     name: "role",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+        createdBy: { type: userDisplayModel },
+        updatedBy: { type: userDisplayModel },
+        createdAt: { type: GraphQLScalarDate },
+        updatedAt: { type: GraphQLScalarDate },
+    },
+});
+//#endregion
+
+//#region Resource
+const resourceDisplayModel = new GraphQLObjectType({
+    name: "resourceDisplayModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+    },
+});
+
+export const resourceModel = new GraphQLObjectType({
+    name: "resource",
     type: "query",
     fields: {
         id: { type: GraphQLInt },

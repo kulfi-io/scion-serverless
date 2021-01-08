@@ -76,14 +76,14 @@ module.exports = {
             "Resources",
             [
                 {
-                    name: "Resources",
+                    name: "Resource",
                     description:
                         "Responsible for managing available components",
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
-                    name: "Financials",
+                    name: "Financial",
                     description:
                         "Responsible for managing payments and donation related transactions",
                     createdById: 1,
@@ -103,7 +103,7 @@ module.exports = {
                     updatedById: 1,
                 },
                 {
-                    name: "Donations",
+                    name: "Donation",
                     description: "Responsible for manging donation",
                     createdById: 1,
                     updatedById: 1,
@@ -115,13 +115,13 @@ module.exports = {
                     updatedById: 1,
                 },
                 {
-                    name: "Spaces",
+                    name: "Space",
                     description: "Responsible for managing sacred spaces",
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
-                    name: "Pools",
+                    name: "Pool",
                     description: "Responsible for managing pools",
                     createdById: 1,
                     updatedById: 1,
