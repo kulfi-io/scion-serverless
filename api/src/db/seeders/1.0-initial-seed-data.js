@@ -11,7 +11,7 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
          */
-            // User // password = password
+        // User // password = password
         await queryInterface.bulkInsert(
             "Users",
             [
@@ -19,12 +19,13 @@ module.exports = {
                     firstName: "Admin",
                     lastName: "User",
                     email: "admin@scion.com",
-                    password: "$2b$10$Dd556/LUlbWMSOmQWcQ7VeUG46CoEJj7pY/807.F1xfc89hwd1yUW",
+                    password:
+                        "$2b$10$Dd556/LUlbWMSOmQWcQ7VeUG46CoEJj7pY/807.F1xfc89hwd1yUW",
                 },
             ],
             {}
         );
-            // Roles
+        // Roles
         await queryInterface.bulkInsert(
             "Roles",
             [
@@ -70,7 +71,7 @@ module.exports = {
             ],
             {}
         );
-            // Resources
+        // Resources
         await queryInterface.bulkInsert(
             "Resources",
             [
@@ -132,42 +133,44 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
+                {
+                    name: "Role",
+                    description: "Responsible for managing role module",
+                    createdById: 1,
+                    updatedById: 1,
+                },
             ],
             {}
         );
-            // Permissions
-        await queryInterface.bulkInsert(
-            "Permissions",
-            [
-                {
-                    name: 'canViewResource',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canApprove',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canManageSelf',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canManage',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canManageAccrossAll',
-                    createdById: 1,
-                    updatedById: 1
-                }
-               
-            ]
-        );
-            // User Role
+        // Permissions
+        await queryInterface.bulkInsert("Permissions", [
+            {
+                name: "canViewResource",
+                createdById: 1,
+                updatedById: 1,
+            },
+            {
+                name: "canApprove",
+                createdById: 1,
+                updatedById: 1,
+            },
+            {
+                name: "canManageSelf",
+                createdById: 1,
+                updatedById: 1,
+            },
+            {
+                name: "canManage",
+                createdById: 1,
+                updatedById: 1,
+            },
+            {
+                name: "canManageAccrossAll",
+                createdById: 1,
+                updatedById: 1,
+            },
+        ]);
+        // User Role
         await queryInterface.bulkInsert(
             "UserRoles",
             [
@@ -182,36 +185,33 @@ module.exports = {
             {}
         );
 
-            // ResourceRole
-            // Doner
-            // Executive Officer
+        // ResourceRole
+        // Doner
+        // Executive Officer
         await queryInterface.bulkInsert(
             "ResourceRoles",
             [
-
                 {
                     roleId: 6,
                     resourceId: 5,
                     permissionId: 1,
                     createdById: 1,
-                    updatedById:1
+                    updatedById: 1,
                 },
                 {
                     roleId: 6,
                     resourceId: 6,
                     permissionId: 3,
                     createdById: 1,
-                    updatedById:1
+                    updatedById: 1,
                 },
                 {
                     roleId: 6,
                     resourceId: 7,
                     permissionId: 1,
                     createdById: 1,
-                    updatedById:1
+                    updatedById: 1,
                 },
-
-
 
                 {
                     roleId: 1,
@@ -227,8 +227,7 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-             
-               
+
                 {
                     roleId: 1,
                     resourceId: 2,
@@ -243,7 +242,6 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-                
 
                 {
                     roleId: 1,
@@ -259,7 +257,6 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-               
 
                 {
                     roleId: 1,
@@ -275,7 +272,6 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-               
 
                 {
                     roleId: 1,
@@ -291,7 +287,7 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-               
+
                 {
                     roleId: 1,
                     resourceId: 5,
@@ -314,7 +310,6 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-                
 
                 {
                     roleId: 1,
@@ -330,7 +325,7 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-               
+
                 {
                     roleId: 1,
                     resourceId: 8,
@@ -345,7 +340,7 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-                
+
                 {
                     roleId: 1,
                     resourceId: 9,
@@ -360,7 +355,13 @@ module.exports = {
                     createdById: 1,
                     updatedById: 1,
                 },
-    
+                {
+                    roleId: 1,
+                    resourceId: 10,
+                    permissionId: 5,
+                    createdById: 1,
+                    updatedById: 1,
+                },
             ],
             {}
         );

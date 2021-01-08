@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from "graphql";
-import User from "../types/users-gpl";
+import RoleGQL from "../types/roles-gql";
+import UserGQL from "../types/users-gpl";
 
 const Query = new GraphQLObjectType({
     name: "RootQuery",
@@ -9,10 +10,13 @@ const Query = new GraphQLObjectType({
             type: GraphQLString,
             resolve: () => "Hello",
         },
-        users: User.queries.all(),
-        userById: User.queries.activeById(),
-        userByEmail: User.queries.activeByEmail(),
-        login: User.queries.login(),
+        users: UserGQL.queries.all(),
+        userById: UserGQL.queries.activeById(),
+        userByEmail: UserGQL.queries.activeByEmail(),
+        login: UserGQL.queries.login(),
+        roles: RoleGQL.queries.all(),
+        roleById: RoleGQL.queries.activeById(),
+        roleByName: RoleGQL.queries.activeByName(),
     }),
 });
 

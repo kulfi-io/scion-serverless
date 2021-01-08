@@ -1,13 +1,16 @@
 import { GraphQLObjectType } from "graphql";
-import User from "../types/users-gpl";
+import UserGQL from "../types/users-gpl";
+import RoleGQL from "../types/roles-gql";
 
 const Mutation = new GraphQLObjectType({
     name: "RootMutation",
     type: "Mutation",
     fields: () => ({
-        addUser: User.mutations.create(),
-        deactivateUser: User.mutations.deactivate(),
-        changePassword: User.mutations.changePassword(),
+        addUser: UserGQL.mutations.create(),
+        deactivateUser: UserGQL.mutations.deactivate(),
+        changePassword: UserGQL.mutations.changePassword(),
+        addRole: RoleGQL.mutations.create(),
+        deactivateRole: RoleGQL.mutations.deactivate(),
     }),
 });
 

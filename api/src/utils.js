@@ -56,6 +56,23 @@ const authorizedToManage = (data) => {
 
 /**
  *
+ * @param {model} data // {user: user, model: model}
+ * return managerial permissions across all
+ */
+const authorizedToManageAccrossAll = (data) => {
+    if (!data || !data.length) throw new Error("Not Authorized");
+
+    const perms = data[0].permissions;
+
+    if (perms.indexOf("canManageAccrossAll") !== -1) {
+        return true;
+    }
+
+    throw new Error("User is not authorized");
+};
+
+/**
+ *
  * @param {object} data // {user: user model: model}
  * returns self manage permissions
  */
@@ -165,6 +182,20 @@ export const isValid = async (data) => {
 
     const resource = verifyResourceAccess(data);
     return authorizedToManage(resource);
+};
+
+/**
+ *
+ * @param {object} data // {user: user, model:modelName}
+ * checks to see if user is authorized
+ * to alter resource
+ * Return Boolean/Error
+ */
+export const isValidAcrossAll = async (data) => {
+    if (!data || !data.user) throw new Error("Not Authenticated");
+
+    const resource = verifyResourceAccess(data);
+    return authorizedToManageAccrossAll(resource);
 };
 
 /**

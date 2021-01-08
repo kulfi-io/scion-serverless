@@ -2,96 +2,18 @@ import {
     GraphQLInt,
     GraphQLList,
     GraphQLNonNull,
-    GraphQLObjectType,
     GraphQLString,
-    GraphQLBoolean,
 } from "graphql";
 import {
     compareData,
     createHash,
     createLoginToken,
-    GraphQLScalarDate,
     isValid,
     isValidSelf,
 } from "../../utils";
-
-/**
- * TODO move models to corresponding types
- *
- */
+import { loginModel, userModel } from "./models";
 
 export class UserGQL {
-    displayModel = new GraphQLObjectType({
-        name: "userDisplayModel",
-        type: "query",
-        fields: {
-            id: { type: GraphQLInt },
-            firstName: { type: GraphQLString },
-            lastName: { type: GraphQLString },
-            fullName: { type: GraphQLString },
-            email: { type: GraphQLString },
-        },
-    });
-
-    resourceModel = new GraphQLObjectType({
-        name: "resourceModel",
-        type: "query",
-        fields: {
-            id: { type: GraphQLInt },
-            name: { type: GraphQLString },
-            permissions: { type: GraphQLList(GraphQLString) },
-        },
-    });
-
-    roleModel = new GraphQLObjectType({
-        name: "roleModel",
-        type: "query",
-        fields: {
-            id: { type: GraphQLInt },
-            name: { type: GraphQLString },
-            isDefault: { type: GraphQLBoolean },
-            resources: { type: GraphQLList(this.resourceModel) },
-        },
-    });
-
-    roleDisplayModel = new GraphQLObjectType({
-        name: "roleDisplayModel",
-        type: "query",
-        fields: {
-            id: { type: GraphQLInt },
-            name: { type: GraphQLString },
-            isDefault: { type: GraphQLBoolean },
-        },
-    });
-
-    loginModel = new GraphQLObjectType({
-        name: "loginModel",
-        type: "query",
-        fields: {
-            user: { type: this.displayModel },
-            roles: { type: GraphQLList(this.roleModel) },
-            token: { type: GraphQLString },
-            requestor: { type: GraphQLString },
-        },
-    });
-
-    model = new GraphQLObjectType({
-        name: "user",
-        type: "query",
-        fields: {
-            id: { type: GraphQLInt },
-            firstName: { type: GraphQLString },
-            lastName: { type: GraphQLString },
-            email: { type: GraphQLString },
-            verified: { type: GraphQLBoolean },
-            createdBy: { type: this.displayModel },
-            updatedBy: { type: this.displayModel },
-            createdAt: { type: GraphQLScalarDate },
-            updatedAt: { type: GraphQLScalarDate },
-            roles: { type: GraphQLList(this.roleDisplayModel) },
-        },
-    });
-
     queries = {
         /***
          * All: Return all active users
@@ -100,7 +22,7 @@ export class UserGQL {
          * returns list of users
          */
         all: () => ({
-            type: new GraphQLList(this.model),
+            type: new GraphQLList(userModel),
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
@@ -175,7 +97,7 @@ export class UserGQL {
          * returns a single user model
          */
         activeById: () => ({
-            type: this.model,
+            type: userModel,
             args: {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
@@ -204,7 +126,7 @@ export class UserGQL {
          * returns a single user model
          */
         activeByEmail: () => ({
-            type: this.model,
+            type: userModel,
             args: {
                 email: { type: GraphQLNonNull(GraphQLString) },
             },
@@ -232,7 +154,7 @@ export class UserGQL {
          * returns login model
          */
         login: () => ({
-            type: this.loginModel,
+            type: loginModel,
             args: {
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
@@ -348,7 +270,7 @@ export class UserGQL {
          * Return user model
          */
         create: () => ({
-            type: this.model,
+            type: userModel,
             args: {
                 firstName: { type: GraphQLNonNull(GraphQLString) },
                 lastName: { type: GraphQLNonNull(GraphQLString) },
@@ -396,7 +318,7 @@ export class UserGQL {
          * Returns user model
          */
         deactivate: () => ({
-            type: this.model,
+            type: userModel,
             args: {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
@@ -451,7 +373,7 @@ export class UserGQL {
          * Returns user model
          */
         changePassword: () => ({
-            type: this.model,
+            type: userModel,
             args: {
                 email: { type: GraphQLNonNull(GraphQLString) },
                 oldPassword: { type: GraphQLNonNull(GraphQLString) },

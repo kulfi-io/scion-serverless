@@ -1,25 +1,22 @@
-import app from "../server";
-import supertest from "supertest";
-import dotenv from "dotenv";
+import { superRequest, apiUrl, getLoginToken, whitelist } from "./utils";
 
-dotenv.config({
-    path: `.env.${process.env.NODE_ENV}`,
-});
+describe("Executive Officer User Endpoint Tests", () => {
+    let token, request, endpoint, origin;
+    beforeAll(() => {
+        request = superRequest();
+        endpoint = apiUrl();
+        origin = whitelist();
+    });
 
-let request = supertest(app);
-const gplUrl = process.env.API_BASE_URL;
+    afterAll(() => {
+        if (request) {
+            request.close();
+        }
+    });
 
-let token;
-const storeLoginData = (err, res) => {
-    if (!err) {
-        token = res.body.data.login.token;
-    }
-};
-
-describe("Executive Officer Role Tests", () => {
     test("login", (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 login(email: "admin@scion.com" password:"password") {
@@ -32,7 +29,7 @@ describe("Executive Officer Role Tests", () => {
             }`,
             })
             .set("Content-type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -43,14 +40,14 @@ describe("Executive Officer Role Tests", () => {
                 expect(res.body.data.login.user.firstName).toEqual("Admin");
                 expect(res.body.data.login.roles.length).toEqual(1);
                 expect(res.body.data.login.token).toBeTruthy();
-                storeLoginData(err, res);
+                token = getLoginToken(err, res);
                 done();
             });
     });
 
     test("authentication-failure-for-retrieve-users", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 users {
@@ -67,7 +64,7 @@ describe("Executive Officer Role Tests", () => {
             }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -79,7 +76,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("retrieve-users", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 users {
@@ -97,7 +94,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
 
             .expect(200)
             .end((err, res) => {
@@ -113,7 +110,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("authentication-failure-for-retrieve-user-by-Id", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 userById(id: 1 ) {
@@ -130,7 +127,7 @@ describe("Executive Officer Role Tests", () => {
             }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -142,7 +139,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("retrieve-user-by-id", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 userById(id: 1 ) {
@@ -160,7 +157,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
 
             .expect(200)
             .end((err, res) => {
@@ -176,7 +173,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("authentication-failure-for-retrieve-user-by-email", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 userByEmail(email: "admin@scion.com" ) {
@@ -193,7 +190,7 @@ describe("Executive Officer Role Tests", () => {
             }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -205,7 +202,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("retrieve-user-by-email", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 userByEmail(email: "admin@scion.com" ) {
@@ -223,7 +220,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
 
             .expect(200)
             .end((err, res) => {
@@ -239,7 +236,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("authentication-failure-for-create-user", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     addUser(firstName: "Lucy", lastName: "Dog", email: "lucy-dog@scion.com", password: "password", roleId: 1) {
@@ -248,7 +245,7 @@ describe("Executive Officer Role Tests", () => {
                 }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -260,7 +257,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("create-user", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     addUser(firstName: "Lucy", lastName: "Dog", email: "lucy-dog@scion.com", password: "password", roleId: 1) {
@@ -270,7 +267,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
 
             .expect(200)
             .end((err, res) => {
@@ -286,7 +283,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("duplicate-email-create-user-returns-validation-error", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     addUser(firstName: "Lucy", lastName: "Dog", email: "lucy-dog@scion.com", password: "password", roleId: 1) {
@@ -296,7 +293,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
 
             .expect(200)
             .end((err, res) => {
@@ -309,7 +306,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("authentication-failure-for-change-password", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     changePassword(email: "admin@scion.com", oldPassword: "password", password: "newPassword") {
@@ -318,7 +315,7 @@ describe("Executive Officer Role Tests", () => {
                 }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -330,7 +327,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("change-password", async (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     changePassword(email: "admin@scion.com", oldPassword: "password", password: "newPassword") {
@@ -340,7 +337,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
 
             .expect(200)
             .end((err, res) => {
@@ -356,7 +353,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("login-with-new-password", (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 login(email: "admin@scion.com" password:"newPassword") {
@@ -370,7 +367,7 @@ describe("Executive Officer Role Tests", () => {
             }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -381,14 +378,14 @@ describe("Executive Officer Role Tests", () => {
                 expect(res.body.data.login.user.firstName).toEqual("Admin");
                 expect(res.body.data.login.roles.length).toEqual(1);
                 expect(res.body.data.login.token).toBeTruthy();
-                storeLoginData(err, res);
+                token = getLoginToken(err, res);
                 done();
             });
     });
 
     test("login-with-newly-added-user", (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `{
                 login(email: "lucy-dog@scion.com" password:"password") {
@@ -402,7 +399,7 @@ describe("Executive Officer Role Tests", () => {
             }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -413,14 +410,14 @@ describe("Executive Officer Role Tests", () => {
                 expect(res.body.data.login.user.firstName).toEqual("Lucy");
                 expect(res.body.data.login.roles.length).toEqual(1);
                 expect(res.body.data.login.token).toBeTruthy();
-                storeLoginData(err, res);
+                token = getLoginToken(err, res);
                 done();
             });
     });
 
     test("authentication-failure-for-deactivation", (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     deactivateUser(id: 2) {
@@ -429,7 +426,7 @@ describe("Executive Officer Role Tests", () => {
                 }`,
             })
             .set("Content-Type", "application/json")
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -441,7 +438,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("deactivate-failure-for-invalid-id", (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     deactivateUser(id: 3) {
@@ -451,7 +448,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -465,7 +462,7 @@ describe("Executive Officer Role Tests", () => {
 
     test("deactivate-newly-added-user", (done) => {
         request
-            .post(gplUrl)
+            .post(endpoint)
             .send({
                 query: `mutation {
                     deactivateUser(id: 2) {
@@ -475,7 +472,7 @@ describe("Executive Officer Role Tests", () => {
             })
             .set("Content-Type", "application/json")
             .set("authorization", token)
-            .set("Origin", process.env.ORIGIN_WHITELIST)
+            .set("Origin", origin)
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
@@ -484,6 +481,32 @@ describe("Executive Officer Role Tests", () => {
 
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.deactivateUser.id).toBeTruthy();
+                done();
+            });
+    });
+
+    test("change-password-original", async (done) => {
+        request
+            .post(endpoint)
+            .send({
+                query: `mutation {
+                    changePassword(email: "admin@scion.com", oldPassword: "newPassword", password: "password") {
+                        id
+                    }
+                }`,
+            })
+            .set("Content-Type", "application/json")
+            .set("authorization", token)
+            .set("Origin", origin)
+
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err);
+
+                if (res.body.errors) return done(res.body.errors[0].message);
+
+                expect(res.body).toBeInstanceOf(Object);
+                expect(res.body.data.changePassword.id).toBeTruthy();
                 done();
             });
     });
