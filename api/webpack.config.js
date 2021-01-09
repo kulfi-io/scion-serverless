@@ -10,7 +10,7 @@ module.exports = {
     entry: slsw.lib.entries,
     target: "node",
     devtool: "nosources-source-map",
-    mode: "development",
+    mode: slsw.lib.webpack.isLocal ? "development" : "production",
     externals: dep,
     module: {
         rules: [
