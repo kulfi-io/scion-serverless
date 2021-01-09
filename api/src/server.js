@@ -48,10 +48,6 @@ app.get("/", (req, res) => {
     res.send("Express is working!");
 });
 
-app.post("/gql/v1", (req, res) => {
-    res.status(200).send({ message: "hello from gql" });
-});
-
 const handler = app;
 
 export default handler;
