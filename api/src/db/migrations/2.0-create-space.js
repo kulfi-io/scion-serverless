@@ -46,7 +46,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            cellPhone: {
+            cell: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },

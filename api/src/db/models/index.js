@@ -4,6 +4,7 @@ import Resource from "./resource";
 import Role from "./role";
 import UserRole from "./user-role";
 import User from "./user";
+import Space from "./space";
 import Sequelize from "sequelize";
 import config from "../config/config";
 
@@ -23,6 +24,7 @@ const models = {
     Resource: Resource(sequelize, Sequelize),
     ResourceRole: ResourceRole(sequelize, Sequelize),
     Permission: Permission(sequelize, Sequelize),
+    Space: Space(sequelize, Sequelize),
 };
 
 Object.keys(models).forEach((key) => {
@@ -32,5 +34,6 @@ Object.keys(models).forEach((key) => {
 });
 
 db.conn = sequelize;
+db.orm = Sequelize;
 
 export default db;

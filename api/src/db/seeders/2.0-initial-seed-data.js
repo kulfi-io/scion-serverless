@@ -9,9 +9,9 @@ module.exports = {
          * await queryInterface.bulkInsert('People', [{
          *   name: 'John Doe',
          *   isBetaMember: false
-         * }], {});
-         */
-        // Spaces
+         * }], {}); 37.7723° N 122.4587° W
+         */ // Spaces
+        // { deg: 37.7723, min: 0, sec: 0}
         await queryInterface.bulkInsert(
             "Spaces",
             [
@@ -31,7 +31,7 @@ module.exports = {
                     state: "CA",
                     zip: "94118",
                     phone: "415-831-2090",
-                    cellPhone: "415-831-2090",
+                    cell: "415-831-2090",
                     email: "info@sfcof.org ",
                     webPresence: "https://conservatoryofflowers.org/",
                     verified: true,
