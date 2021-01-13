@@ -226,3 +226,39 @@ export const isValidSelf = async (data) => {
 /**
  * TODO Create shared function for Illegal actions
  */
+
+/**
+ * DMS Converter: converst latitude or longitude to double
+ * input {object} /41°24'12.2"N 2°10'26.5"E/
+ * output {object} {lat: xxx.xxxx, long: xxx.xxxx} / null
+ */
+export const DMSConverter = (input) => {
+    if (!input || typeof input !== "object") return null;
+
+    const latLong = input.source.split(" ");
+    const coords = {};
+
+    const parseCoords = (data, direction) => {
+        const neg = data.toLowerCase().indexOf(direction.toLowerCase()) !== -1;
+
+        const sections = data.split(/[^\d+(\,\d+)\d+(\.\d+)?\w]+/);
+        const hr = sections[0] ? parseFloat(sections[0]) : 0;
+        const min = sections[1] ? parseFloat(sections[1]) : 0;
+        const sec = sections[2] ? parseFloat(sections[2].replace(",", ".")) : 0;
+
+        const value =
+            hr + (min > 0 ? min / 60 : 0) + (sec > 0 ? sec / 3600 : 0);
+
+        return parseFloat((neg ? value * -1 : value).toFixed(6));
+    };
+
+    if (latLong.length) {
+        const lat = parseCoords(latLong[0], "S");
+        const long = parseCoords(latLong[1], "W");
+
+        coords["lat"] = lat;
+        coords["long"] = long;
+    }
+
+    return coords;
+};

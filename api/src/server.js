@@ -40,7 +40,11 @@ app.use("/gql/v1", cors(options), (req, res) => {
     graphqlHTTP({
         schema: Schema,
         graphiql: process.env.NODE_ENV === "development",
-        context: { models: db.conn.models, user: getLoginTokenData(req) },
+        context: {
+            orm: db.orm,
+            models: db.conn.models,
+            user: getLoginTokenData(req),
+        },
     })(req, res);
 });
 
