@@ -232,11 +232,11 @@ export const isValidSelf = async (data) => {
  * input {object} /41°24'12.2"N 2°10'26.5"E/
  * output {object} {lat: xxx.xxxx, long: xxx.xxxx} / null
  */
-export const DMSConverter = (input) => {
+export const DMSToDoubleConverter = (input) => {
     if (!input || typeof input !== "object") return null;
 
     const latLong = input.source.split(" ");
-    const coords = {};
+    let output;
 
     const parseCoords = (data, direction) => {
         const neg = data.toLowerCase().indexOf(direction.toLowerCase()) !== -1;
@@ -256,9 +256,25 @@ export const DMSConverter = (input) => {
         const lat = parseCoords(latLong[0], "S");
         const long = parseCoords(latLong[1], "W");
 
-        coords["lat"] = lat;
-        coords["long"] = long;
+        output = `${lat} ${long}`;
     }
 
-    return coords;
+    return output;
+};
+
+export const DoubleToDegConverter = (input, direction = "lat") => {
+    if (!input) return null;
+
+    input = input.toString();
+
+    let output = "";
+    if (input.indexOf("-") !== -1) {
+        output = `${input.replace("-", "")}° ${
+            direction === "lat" ? "S" : "W"
+        }`;
+    } else {
+        output = `${input}° ${direction === "lat" ? "N" : "E"}`;
+    }
+
+    return output;
 };

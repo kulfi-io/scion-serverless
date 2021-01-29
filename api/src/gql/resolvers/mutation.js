@@ -2,6 +2,7 @@ import { GraphQLObjectType } from "graphql";
 import UserGQL from "../types/users-gpl";
 import RoleGQL from "../types/roles-gql";
 import ResourceGQL from "../types/resources-gql";
+import SpaceGQL from "../types/space-gql";
 
 const Mutation = new GraphQLObjectType({
     name: "RootMutation",
@@ -14,6 +15,7 @@ const Mutation = new GraphQLObjectType({
         deactivateRole: RoleGQL.mutations.deactivate(),
         addResource: ResourceGQL.mutations.create(),
         deactivateResource: ResourceGQL.mutations.deactivate(),
+        addSpace: SpaceGQL.mutations.create(),
     }),
 });
 

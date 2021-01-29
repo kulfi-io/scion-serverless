@@ -11,7 +11,7 @@ module.exports = {
          *   isBetaMember: false
          * }], {}); 37.7723° N 122.4587° W
          */ // Spaces
-        // { deg: 37.7723, min: 0, sec: 0}
+        //
         await queryInterface.bulkInsert(
             "Spaces",
             [

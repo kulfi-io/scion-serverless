@@ -55,10 +55,10 @@ export class ResourceGQL {
         }),
 
         /***
-         * activeById: return one active user by id
+         * activeById: return one active resource by id
          * args:
          *  id  typeof int
-         * returns a single user model
+         * returns a single resource model
          */
         activeById: () => ({
             type: resourceModel,
@@ -76,6 +76,35 @@ export class ResourceGQL {
                         id: args.id,
                         active: true,
                     },
+                    include: [
+                        {
+                            model: context.models.User,
+                            as: "createdBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.User,
+                            as: "updatedBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.Role,
+                            where: {
+                                active: true,
+                            },
+                            attributes: ["id", "name"],
+                        },
+                    ],
                 });
 
                 return data;
@@ -103,6 +132,35 @@ export class ResourceGQL {
                         name: args.name,
                         active: true,
                     },
+                    include: [
+                        {
+                            model: context.models.User,
+                            as: "createdBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.User,
+                            as: "updatedBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.Role,
+                            where: {
+                                active: true,
+                            },
+                            attributes: ["id", "name"],
+                        },
+                    ],
                 });
 
                 return data;
@@ -115,7 +173,7 @@ export class ResourceGQL {
          * args:
          *  name: string
          *  description: string
-         * Return user model
+         * Return resource model
          */
         create: () => ({
             type: resourceModel,

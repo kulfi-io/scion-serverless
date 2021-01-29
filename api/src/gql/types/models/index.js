@@ -4,6 +4,8 @@ import {
     GraphQLString,
     GraphQLBoolean,
     GraphQLList,
+    GraphQLScalarType,
+    GraphQLFloat,
 } from "graphql";
 import { GraphQLScalarDate } from "../../../utils";
 
@@ -125,6 +127,55 @@ export const resourceModel = new GraphQLObjectType({
         id: { type: GraphQLInt },
         name: { type: GraphQLString },
         description: { type: GraphQLString },
+        createdBy: { type: userDisplayModel },
+        updatedBy: { type: userDisplayModel },
+        createdAt: { type: GraphQLScalarDate },
+        updatedAt: { type: GraphQLScalarDate },
+    },
+});
+//#endregion
+
+//#region Space
+const spaceDisplayModel = new GraphQLObjectType({
+    name: "spaceDisplayModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+        location: { type: GraphQLString },
+        private: { type: GraphQLBoolean },
+        address: { type: GraphQLString },
+        address2: { type: GraphQLString },
+        city: { type: GraphQLString },
+        state: { type: GraphQLString },
+        zip: { type: GraphQLString },
+        phone: { type: GraphQLString },
+        cell: { type: GraphQLString },
+        email: { type: GraphQLString },
+        webPresence: { type: GraphQLString },
+    },
+});
+
+export const spaceModel = new GraphQLObjectType({
+    name: "spaceModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+        latitude: { type: GraphQLString },
+        longitude: { type: GraphQLString },
+        private: { type: GraphQLBoolean },
+        address: { type: GraphQLString },
+        address2: { type: GraphQLString },
+        city: { type: GraphQLString },
+        state: { type: GraphQLString },
+        zip: { type: GraphQLString },
+        phone: { type: GraphQLString },
+        cell: { type: GraphQLString },
+        email: { type: GraphQLString },
+        webPresence: { type: GraphQLString },
         createdBy: { type: userDisplayModel },
         updatedBy: { type: userDisplayModel },
         createdAt: { type: GraphQLScalarDate },

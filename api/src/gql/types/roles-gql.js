@@ -76,6 +76,28 @@ export class RoleGQL {
                         id: args.id,
                         active: true,
                     },
+                    include: [
+                        {
+                            model: context.models.User,
+                            as: "createdBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.User,
+                            as: "updatedBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                    ],
                 });
 
                 return data;
@@ -103,6 +125,28 @@ export class RoleGQL {
                         name: args.name,
                         active: true,
                     },
+                    include: [
+                        {
+                            model: context.models.User,
+                            as: "createdBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.User,
+                            as: "updatedBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                    ],
                 });
 
                 return data;

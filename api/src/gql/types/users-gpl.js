@@ -18,7 +18,6 @@ export class UserGQL {
         /***
          * All: Return all active users
          * args
-         * requestor  typeof string  //hashed id value
          * returns list of users
          */
         all: () => ({
@@ -93,7 +92,6 @@ export class UserGQL {
          * activeById: return one active user by id
          * args:
          *  id  typeof int
-         *  requestor typeof string //hashed id value
          * returns a single user model
          */
         activeById: () => ({
@@ -112,6 +110,35 @@ export class UserGQL {
                         id: args.id,
                         active: true,
                     },
+                    include: [
+                        {
+                            model: context.models.User,
+                            as: "createdBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.User,
+                            as: "updatedBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.Role,
+                            where: {
+                                active: true,
+                            },
+                            attributes: ["id", "name"],
+                        },
+                    ],
                 });
 
                 return data;
@@ -122,7 +149,6 @@ export class UserGQL {
          * activeByEmail: return one active user by email
          * args:
          *  email: string
-         *  requestor: string //hashed id value
          * returns a single user model
          */
         activeByEmail: () => ({
@@ -140,6 +166,35 @@ export class UserGQL {
                         email: args.email,
                         active: true,
                     },
+                    include: [
+                        {
+                            model: context.models.User,
+                            as: "createdBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.User,
+                            as: "updatedBy",
+                            attributes: [
+                                "id",
+                                "firstName",
+                                "lastName",
+                                "email",
+                            ],
+                        },
+                        {
+                            model: context.models.Role,
+                            where: {
+                                active: true,
+                            },
+                            attributes: ["id", "name"],
+                        },
+                    ],
                 });
 
                 return data;
