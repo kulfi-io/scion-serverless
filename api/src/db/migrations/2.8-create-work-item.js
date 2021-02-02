@@ -1,46 +1,33 @@
 "use strict";
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable("UserSpaceRoles", {
+        await queryInterface.createTable("WorkItems", {
             id: {
-                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
+                type: Sequelize.INTEGER,
+            },
+            spaceWorkId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: "SpaceWorks",
+                    key: "id",
+                },
             },
             userId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
                 references: {
                     model: "Users",
                     key: "id",
                 },
             },
-            spaceId: {
+            workStateId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
                 references: {
-                    model: "Spaces",
+                    model: "WorkStates",
                     key: "id",
                 },
-            },
-            roleId: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                references: {
-                    model: "Roles",
-                    key: "id",
-                },
-            },
-            active: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false,
-                defaultValue: true,
-            },
-            isDefault: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false,
-                DefaultValue: false,
             },
             createdById: {
                 type: Sequelize.INTEGER,
@@ -69,6 +56,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable("UserSpaceRoles");
+        await queryInterface.dropTable("WorkItems");
     },
 };

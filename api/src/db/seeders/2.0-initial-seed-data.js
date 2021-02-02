@@ -42,19 +42,132 @@ module.exports = {
             ],
             {}
         );
-        // // Space User Roles join table
-        // await queryInterface.bulkInsert(
-        //     "SpaceUserRoles",
-        //     [
-        //         {
-        //             spaceId: 1,
-        //             userRoleId: 1,
-        //             createdById: 1,
-        //             updatedById: 1,
-        //         },
-        //     ],
-        //     {}
-        // );
+
+        await queryInterface.bulkInsert(
+            "WorkTypes",
+            [
+                {
+                    displayName: "One Time",
+                    description: "One time work item",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Recurring",
+                    description: "Recurring work item",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+            ],
+            {}
+        );
+
+        await queryInterface.bulkInsert(
+            "WorkCategories",
+            [
+                {
+                    displayName: "Administration",
+                    description: "Administrative item",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Maintenance",
+                    description: "Maintenance item",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+            ],
+            {}
+        );
+
+        await queryInterface.bulkInsert(
+            "WorkStatuses",
+            [
+                {
+                    displayName: "Approved",
+                    description: "Approved for work",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Requested",
+                    description: "Requested for approval",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Denied",
+                    description: "Denied for approval",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Expired",
+                    description: "Expired",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+            ],
+            {}
+        );
+
+        await queryInterface.bulkInsert(
+            "WorkStates",
+            [
+                {
+                    displayName: "In Progress",
+                    description: "In Progress",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Pending",
+                    description: "Pending",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Completed",
+                    description: "Completed",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Scheduled",
+                    description: "Completed",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Closed",
+                    description: "Closed",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    displayName: "Opened",
+                    description: "Opened",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+            ],
+            {}
+        );
     },
 
     down: async (queryInterface, Sequelize) => {
@@ -65,6 +178,26 @@ module.exports = {
          * await queryInterface.bulkDelete('People', null, {});
          */
         await queryInterface.bulkDelete("Spaces", null, {
+            truncate: true,
+            cascade: true,
+        });
+
+        await queryInterface.bulkDelete("WorkStates", null, {
+            truncate: true,
+            cascade: true,
+        });
+
+        await queryInterface.bulkDelete("WorkStatuses", null, {
+            truncate: true,
+            cascade: true,
+        });
+
+        await queryInterface.bulkDelete("WorkCategories", null, {
+            truncate: true,
+            cascade: true,
+        });
+
+        await queryInterface.bulkDelete("WorkTypes", null, {
             truncate: true,
             cascade: true,
         });
