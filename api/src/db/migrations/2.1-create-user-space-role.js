@@ -1,18 +1,20 @@
 "use strict";
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable("UserRoles", {
-            id: {
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER,
-            },
+        await queryInterface.createTable("UserSpaceRoles", {
             userId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
                     model: "Users",
+                    key: "id",
+                },
+            },
+            spaceId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: "Spaces",
                     key: "id",
                 },
             },
@@ -32,7 +34,7 @@ module.exports = {
             isDefault: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
-                DefaultValue: false
+                DefaultValue: false,
             },
             createdById: {
                 type: Sequelize.INTEGER,
@@ -57,12 +59,10 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.fn("NOW"),
-            }
+            },
         });
-
-        
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable("UserRoles");
+        await queryInterface.dropTable("UserSpaceRoles");
     },
 };

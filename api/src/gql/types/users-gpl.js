@@ -74,7 +74,7 @@ export class UserGQL {
                             return {
                                 id: role.id,
                                 name: role.name,
-                                isDefault: role.UserRole.isDefault,
+                                isDefault: role.UserSpaceRole.isDefault,
                             };
                         }),
                         createdAt: user.createdAt,
@@ -251,9 +251,15 @@ export class UserGQL {
                                 },
                             ],
                         },
+                        {
+                            model: context.models.Space,
+                            attributes: ["id", "displayName"],
+                            where: {
+                                active: true,
+                            },
+                        },
                     ],
                 });
-
                 if (data && data.password && args.password) {
                     const valid = await compareData(
                         args.password,
@@ -273,9 +279,9 @@ export class UserGQL {
                             return {
                                 id: role.id,
                                 name: role.name,
-                                isDefault: role.UserRole.isDefault,
+                                isDefault: role.UserSpaceRole.isDefault,
                                 resources:
-                                    role.UserRole.isDefault === true
+                                    role.UserSpaceRole.isDefault === true
                                         ? role.Resources.map((res) => {
                                               return {
                                                   id: res.id,
@@ -308,7 +314,7 @@ export class UserGQL {
                     return _data;
                 }
 
-                return data;
+                return new Error("Login failure");
             },
         }),
     };
@@ -332,12 +338,14 @@ export class UserGQL {
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
                 roleId: { type: GraphQLNonNull(GraphQLInt) },
+                spaceId: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
                     model: context.models.User.name,
                 });
+
                 const hashed = await createHash(args.password);
 
                 // create user
@@ -352,17 +360,22 @@ export class UserGQL {
 
                 // Assign user role and set default
                 if (data.id) {
-                    // user role
-                    const usrRole = await context.models.UserRole.create({
-                        userId: data.id,
-                        roleId: args.roleId,
-                        isDefault: true,
-                        createdById: context.user.userId,
-                        updatedById: context.user.userId,
-                    });
+                    // user space role
+                    const usrResult = await context.models.UserSpaceRole.create(
+                        {
+                            roleId: args.roleId,
+                            spaceId: args.spaceId,
+                            userId: data.id,
+                            isDefault: true,
+                            createdById: context.user.userId,
+                            updatedById: context.user.userId,
+                        }
+                    );
+
+                    return data;
                 }
 
-                return data;
+                throw new Error("Unable to create user");
             },
         }),
         /**
@@ -383,7 +396,7 @@ export class UserGQL {
                     model: context.models.User.name,
                 });
 
-                const destroyed = await context.models.UserRole.destroy({
+                const destroyed = await context.models.UserSpaceRole.destroy({
                     where: {
                         userId: args.id,
                     },

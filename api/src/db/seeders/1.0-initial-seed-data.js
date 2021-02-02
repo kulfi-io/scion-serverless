@@ -170,12 +170,44 @@ module.exports = {
                 updatedById: 1,
             },
         ]);
-        // User Role
+        // space
         await queryInterface.bulkInsert(
-            "UserRoles",
+            "Spaces",
+            [
+                {
+                    displayName: "Scion",
+                    name: "Church of Scion",
+                    description: "Church of Scion",
+                    location: Sequelize.fn(
+                        "create_geometryFromText",
+                        "POINT(37.7723 -122.4587)"
+                    ),
+                    private: false,
+                    address: "Some address on McAllister Street",
+                    address2: "",
+                    city: "San Francisco",
+                    state: "CA",
+                    zip: "94116",
+                    phone: "415-555-1212",
+                    cell: "415-555-1212",
+                    email: "info@scion.org ",
+                    webPresence: "https://scion.org/",
+                    verified: true,
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+            ],
+            {}
+        );
+
+        // User Space Role
+        await queryInterface.bulkInsert(
+            "UserSpaceRoles",
             [
                 {
                     roleId: 1,
+                    spaceId: 1,
                     userId: 1,
                     isDefault: true,
                     createdById: 1,

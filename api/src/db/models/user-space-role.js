@@ -1,6 +1,6 @@
 import { Model } from "sequelize";
-const userRole = (sequelize, DataTypes) => {
-    class UserRole extends Model {
+const userSpaceRole = (sequelize, DataTypes) => {
+    class UserSpaceRole extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -8,21 +8,37 @@ const userRole = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            UserRole.belongsTo(models.User, {
+            UserSpaceRole.belongsTo(models.User, {
                 as: "createdBy",
                 foreignKey: "createdById",
                 foreignKeyConstraint: true,
             });
-            UserRole.belongsTo(models.User, {
+            UserSpaceRole.belongsTo(models.User, {
                 as: "updatedBy",
                 foreignKey: "updatedById",
                 foreignKeyConstraint: true,
             });
+            UserSpaceRole.belongsTo(models.User, {
+                as: "USRUser",
+                foreignKey: "userId",
+                foreignKeyConstraint: true,
+            });
+            UserSpaceRole.belongsTo(models.Role, {
+                as: "USRRole",
+                foreignKey: "roleId",
+                foreignKeyConstraint: true,
+            });
+            UserSpaceRole.belongsTo(models.Space, {
+                as: "USRSpace",
+                foreignKey: "spaceId",
+                foreignKeyConstraint: true,
+            });
         }
     }
-    UserRole.init(
+    UserSpaceRole.init(
         {
             userId: DataTypes.INTEGER,
+            spaceId: DataTypes.INTEGER,
             roleId: DataTypes.INTEGER,
             isDefault: DataTypes.BOOLEAN,
             active: DataTypes.BOOLEAN,
@@ -32,10 +48,10 @@ const userRole = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: "UserRole",
+            modelName: "UserSpaceRole",
         }
     );
-    return UserRole;
+    return UserSpaceRole;
 };
 
-export default userRole;
+export default userSpaceRole;

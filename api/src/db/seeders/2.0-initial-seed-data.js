@@ -42,19 +42,19 @@ module.exports = {
             ],
             {}
         );
-        // Space User Roles join table
-        await queryInterface.bulkInsert(
-            "SpaceUserRoles",
-            [
-                {
-                    spaceId: 1,
-                    userRoleId: 1,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-            ],
-            {}
-        );
+        // // Space User Roles join table
+        // await queryInterface.bulkInsert(
+        //     "SpaceUserRoles",
+        //     [
+        //         {
+        //             spaceId: 1,
+        //             userRoleId: 1,
+        //             createdById: 1,
+        //             updatedById: 1,
+        //         },
+        //     ],
+        //     {}
+        // );
     },
 
     down: async (queryInterface, Sequelize) => {
@@ -69,9 +69,9 @@ module.exports = {
             cascade: true,
         });
 
-        await queryInterface.bulkDelete("SpaceUserRoles", null, {
-            truncate: true,
-            cascade: true,
-        });
+        // await queryInterface.bulkDelete("SpaceUserRoles", null, {
+        //     truncate: true,
+        //     cascade: true,
+        // });
     },
 };

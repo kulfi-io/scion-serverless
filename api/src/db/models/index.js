@@ -2,8 +2,8 @@ import Permission from "./permission";
 import ResourceRole from "./resource-role";
 import Resource from "./resource";
 import Role from "./role";
-import UserRole from "./user-role";
 import User from "./user";
+import UserSpaceRole from "./user-space-role";
 import Space from "./space";
 import Sequelize from "sequelize";
 import config from "../config/config";
@@ -20,7 +20,7 @@ let sequelize = new Sequelize(
 const models = {
     User: User(sequelize, Sequelize),
     Role: Role(sequelize, Sequelize),
-    UserRole: UserRole(sequelize, Sequelize),
+    UserSpaceRole: UserSpaceRole(sequelize, Sequelize),
     Resource: Resource(sequelize, Sequelize),
     ResourceRole: ResourceRole(sequelize, Sequelize),
     Permission: Permission(sequelize, Sequelize),

@@ -19,7 +19,7 @@ const role = (sequelize, DataTypes) => {
                 foreignKeyConstraint: true,
             });
             Role.belongsToMany(models.User, {
-                through: models.UserRole,
+                through: models.UserSpaceRole,
                 foreignKey: "roleId",
                 foreignKeyConstraint: true,
             });

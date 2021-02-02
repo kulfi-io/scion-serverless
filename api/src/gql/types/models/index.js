@@ -4,8 +4,6 @@ import {
     GraphQLString,
     GraphQLBoolean,
     GraphQLList,
-    GraphQLScalarType,
-    GraphQLFloat,
 } from "graphql";
 import { GraphQLScalarDate } from "../../../utils";
 

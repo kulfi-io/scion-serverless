@@ -19,6 +19,11 @@ const space = (sequelize, DataTypes) => {
                 foreignkey: "updatedById",
                 foreignKeyConstraint: true,
             });
+            Space.belongsToMany(models.User, {
+                through: models.UserSpaceRole,
+                foreignKey: "spaceId",
+                foreignKeyConstraint: true,
+            });
         }
     }
     Space.init(

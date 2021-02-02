@@ -21,11 +21,11 @@ describe("Executive Officer Space Endpoint Tests", () => {
             .send({
                 query: `{
                 login(email: "admin@scion.com" password:"password") {
-                    token 
+                    token
                     user {id firstName lastName fullName}
                     roles{id name isDefault resources {
                         id name permissions
-                    }} 
+                    }}
                 }
             }`,
             })
@@ -104,7 +104,7 @@ describe("Executive Officer Space Endpoint Tests", () => {
 
                 if (res.body.errors) return done(res.body.errors[0].message);
                 expect(res.body).toBeInstanceOf(Object);
-                expect(res.body.data.spaces.length).toEqual(1);
+                expect(res.body.data.spaces.length).toEqual(2);
                 expect(res.body.data.spaces[0].latitude).toEqual("37.7723° N");
                 done();
             });
@@ -149,12 +149,12 @@ describe("Executive Officer Space Endpoint Tests", () => {
             });
     });
 
-    test("retrieve-user-by-id", async (done) => {
+    test("retrieve-space-by-id", async (done) => {
         request
             .post(endpoint)
             .send({
                 query: `{
-                spaceById(id: 1 ) {
+                spaceById(id: 2 ) {
                     id
                     displayName
                     description
@@ -187,7 +187,7 @@ describe("Executive Officer Space Endpoint Tests", () => {
                 if (res.body.errors) return done(res.body.errors[0].message);
 
                 expect(res.body).toBeInstanceOf(Object);
-                expect(res.body.data.spaceById.id).toEqual(1);
+                expect(res.body.data.spaceById.id).toEqual(2);
                 done();
             });
     });
@@ -266,7 +266,7 @@ describe("Executive Officer Space Endpoint Tests", () => {
                 query: `mutation {
                     addSpace(
                         name: "Sample Space"
-                        description: "Space created for testing insert" 
+                        description: "Space created for testing insert"
                         geo: "${geo}"
                         private: false
                         address: "123 test street"

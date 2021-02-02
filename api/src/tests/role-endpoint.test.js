@@ -20,11 +20,11 @@ describe("Executive Officer Role Endpoint Tests", () => {
             .send({
                 query: `{
                 login(email: "admin@scion.com" password:"password") {
-                    token 
+                    token
                     user {id firstName lastName fullName}
                     roles{id name isDefault resources {
                         id name permissions
-                    }} 
+                    }}
                 }
             }`,
             })
