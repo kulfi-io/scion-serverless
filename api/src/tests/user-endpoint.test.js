@@ -260,7 +260,7 @@ describe("Executive Officer User Endpoint Tests", () => {
             .post(endpoint)
             .send({
                 query: `mutation {
-                    addUser(firstName: "Lucy", lastName: "Dog", email: "lucy-dog@scion.com", password: "password", roleId: 6, spaceId: 1) {
+                    addUser(firstName: "Lucy", lastName: "Dog", email: "lucy-dog@scion.com", password: "password", roleId: 1, spaceId: 2) {
                         id
                     }
                 }`,

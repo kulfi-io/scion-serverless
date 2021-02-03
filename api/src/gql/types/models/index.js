@@ -181,3 +181,20 @@ export const spaceModel = new GraphQLObjectType({
     },
 });
 //#endregion
+
+//#region Work
+export const workDescriptiveModel = new GraphQLObjectType({
+    name: "workDisplayModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+        createdBy: { type: userDisplayModel },
+        createdAt: { type: GraphQLScalarDate },
+        updatedBy: { type: userDisplayModel },
+        updatedAt: { type: GraphQLScalarDate },
+    },
+});
+
+//#endregion
