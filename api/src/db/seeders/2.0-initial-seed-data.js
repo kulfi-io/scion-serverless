@@ -146,7 +146,7 @@ module.exports = {
                 },
                 {
                     displayName: "Scheduled",
-                    description: "Completed",
+                    description: "Scheduled",
                     active: true,
                     createdById: 1,
                     updatedById: 1,
@@ -161,6 +161,24 @@ module.exports = {
                 {
                     displayName: "Opened",
                     description: "Opened",
+                    active: true,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+            ],
+            {}
+        );
+
+        await queryInterface.bulkInsert(
+            "Works",
+            [
+                {
+                    displayName: "Pool cleaning",
+                    description: "Pool cleaning",
+                    rate: 20.0,
+                    workStatusId: 2,
+                    workTypeId: 1,
+                    workCategoryId: 2,
                     active: true,
                     createdById: 1,
                     updatedById: 1,
@@ -202,9 +220,9 @@ module.exports = {
             cascade: true,
         });
 
-        // await queryInterface.bulkDelete("SpaceUserRoles", null, {
-        //     truncate: true,
-        //     cascade: true,
-        // });
+        await queryInterface.bulkDelete("Works", null, {
+            truncate: true,
+            cascade: true,
+        });
     },
 };

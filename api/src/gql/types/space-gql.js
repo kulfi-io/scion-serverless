@@ -5,7 +5,7 @@ import {
     GraphQLList,
     GraphQLBoolean,
 } from "graphql";
-import { DoubleToDegConverter, isValid } from "../../utils";
+import { DoubleToDegConverter, isAdminOrManager } from "../../utils";
 import { spaceModel } from "./models";
 
 export class SpaceGQL {
@@ -18,7 +18,7 @@ export class SpaceGQL {
         all: () => ({
             type: new GraphQLList(spaceModel),
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Space.name,
                 });
@@ -110,7 +110,7 @@ export class SpaceGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Space.name,
                 });
@@ -199,7 +199,7 @@ export class SpaceGQL {
                 name: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Space.name,
                 });
@@ -312,7 +312,7 @@ export class SpaceGQL {
                 webPresence: { type: GraphQLString },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Space.name,
                 });
@@ -358,7 +358,7 @@ export class SpaceGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Space.name,
                 });

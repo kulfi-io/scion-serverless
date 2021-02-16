@@ -7,6 +7,7 @@ import WorkCategoryGQL from "../types/work-category.gql";
 import WorkStateGQL from "../types/work-state.gql";
 import WorkStatusGQL from "../types/work-status.gql";
 import WorkTypeGQL from "../types/work-type.gql";
+import WorkGQL from "../types/work.gql";
 
 const Query = new GraphQLObjectType({
     name: "RootQuery",
@@ -41,6 +42,9 @@ const Query = new GraphQLObjectType({
         workTypes: WorkTypeGQL.queries.all(),
         workTypeById: WorkTypeGQL.queries.activeById(),
         workTypeByName: WorkTypeGQL.queries.activeByName(),
+        works: WorkGQL.queries.all(),
+        workById: WorkGQL.queries.activeById(),
+        workByName: WorkGQL.queries.activeByName(),
     }),
 });
 

@@ -4,8 +4,22 @@ import {
     GraphQLString,
     GraphQLBoolean,
     GraphQLList,
+    GraphQLFloat,
 } from "graphql";
 import { GraphQLScalarDate } from "../../../utils";
+
+//#region Descriptive
+const descriptiveDisplayModel = new GraphQLObjectType({
+    name: "descriptiveDisplayModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+    },
+});
+
+//#endregion
 
 //#region User
 const userDisplayModel = new GraphQLObjectType({
@@ -183,6 +197,7 @@ export const spaceModel = new GraphQLObjectType({
 //#endregion
 
 //#region Work
+
 export const workDescriptiveModel = new GraphQLObjectType({
     name: "workDisplayModel",
     type: "query",
@@ -190,6 +205,24 @@ export const workDescriptiveModel = new GraphQLObjectType({
         id: { type: GraphQLInt },
         displayName: { type: GraphQLString },
         description: { type: GraphQLString },
+        createdBy: { type: userDisplayModel },
+        createdAt: { type: GraphQLScalarDate },
+        updatedBy: { type: userDisplayModel },
+        updatedAt: { type: GraphQLScalarDate },
+    },
+});
+
+export const workModel = new GraphQLObjectType({
+    name: "workModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+        rate: { type: GraphQLFloat },
+        workStatus: { type: descriptiveDisplayModel },
+        workType: { type: descriptiveDisplayModel },
+        workCategory: { type: descriptiveDisplayModel },
         createdBy: { type: userDisplayModel },
         createdAt: { type: GraphQLScalarDate },
         updatedBy: { type: userDisplayModel },

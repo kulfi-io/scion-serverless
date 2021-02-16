@@ -16,7 +16,8 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             rate: {
-                type: Sequelize.DECIMAL(2),
+                type: Sequelize.FLOAT(3, 2),
+                defaultValue: 0.0,
             },
             workStatusId: {
                 type: Sequelize.INTEGER,
@@ -49,7 +50,7 @@ module.exports = {
                     key: "id",
                 },
             },
-            modifiedById: {
+            updatedById: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: "Users",

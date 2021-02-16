@@ -40,13 +40,13 @@ const work = (sequelize, DataTypes) => {
         {
             displayName: DataTypes.STRING,
             description: DataTypes.STRING,
-            rate: DataTypes.DECIMAL(2),
+            rate: DataTypes.FLOAT(3, 2),
             workStatusId: DataTypes.INTEGER,
             workTypeId: DataTypes.INTEGER,
             workCategoryId: DataTypes.INTEGER,
             active: DataTypes.BOOLEAN,
             createdById: DataTypes.INTEGER,
-            modifiedById: DataTypes.INTEGER,
+            updatedById: DataTypes.INTEGER,
         },
         {
             sequelize,

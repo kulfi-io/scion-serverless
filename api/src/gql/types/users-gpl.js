@@ -8,6 +8,7 @@ import {
     compareData,
     createHash,
     createLoginToken,
+    isAdminOrManager,
     isValid,
     isValidSelf,
 } from "../../utils";
@@ -23,7 +24,7 @@ export class UserGQL {
         all: () => ({
             type: new GraphQLList(userModel),
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.User.name,
                 });
@@ -100,7 +101,7 @@ export class UserGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.User.name,
                 });
@@ -157,7 +158,7 @@ export class UserGQL {
                 email: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.User.name,
                 });
@@ -341,7 +342,7 @@ export class UserGQL {
                 spaceId: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.User.name,
                 });
@@ -391,7 +392,7 @@ export class UserGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValid({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.User.name,
                 });

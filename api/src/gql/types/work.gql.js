@@ -1,28 +1,29 @@
 import {
+    GraphQLFloat,
     GraphQLInt,
-    GraphQLString,
-    GraphQLNonNull,
     GraphQLList,
+    GraphQLNonNull,
+    GraphQLString,
 } from "graphql";
 import { isAdminOrManager } from "../../utils";
-import { resourceModel } from "./models";
+import { workModel } from "./models";
 
-export class ResourceGQL {
+export class WorkGQL {
     queries = {
         /***
-         * All: Return all active resources
+         * All: Return all active work
          * args
-         * returns list of resources
+         * returns list of work
          */
         all: () => ({
-            type: new GraphQLList(resourceModel),
+            type: new GraphQLList(workModel),
             resolve: async (input, args, context) => {
                 await isAdminOrManager({
                     user: context.user,
-                    model: context.models.Resource.name,
+                    model: context.models.Work.name,
                 });
 
-                const data = await context.models.Resource.findAll({
+                const data = await context.models.Work.findAll({
                     where: {
                         active: true,
                     },
@@ -47,7 +48,28 @@ export class ResourceGQL {
                                 "email",
                             ],
                         },
+                        {
+                            model: context.models.WorkCategory,
+                            as: "workCategory",
+                            attributes: ["id", "displayName", "description"],
+                        },
+                        {
+                            model: context.models.WorkStatus,
+                            as: "workStatus",
+                            attributes: ["id", "displayName", "description"],
+                        },
+                        {
+                            model: context.models.WorkType,
+                            as: "workType",
+                            attributes: ["id", "displayName", "description"],
+                        },
                     ],
+                });
+
+                data.map((item) => {
+                    item.workCategory = item.dataValues.workCategory;
+                    item.workStatus = item.dataValues.workStatus;
+                    item.workType = item.dataValues.workType;
                 });
 
                 return data;
@@ -55,23 +77,23 @@ export class ResourceGQL {
         }),
 
         /***
-         * activeById: return one active resource by id
+         * activeById: return one active work by id
          * args:
          *  id  typeof int
-         * returns a single resource model
+         * returns a single work model
          */
         activeById: () => ({
-            type: resourceModel,
+            type: workModel,
             args: {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
                 await isAdminOrManager({
                     user: context.user,
-                    model: context.models.Resource.name,
+                    model: context.models.Work.name,
                 });
 
-                const data = await context.models.Resource.findOne({
+                const data = await context.models.Work.findOne({
                     where: {
                         id: args.id,
                         active: true,
@@ -98,38 +120,52 @@ export class ResourceGQL {
                             ],
                         },
                         {
-                            model: context.models.Role,
-                            where: {
-                                active: true,
-                            },
-                            attributes: ["id", "name"],
+                            model: context.models.WorkCategory,
+                            as: "workCategory",
+                            attributes: ["id", "displayName", "description"],
+                        },
+                        {
+                            model: context.models.WorkStatus,
+                            as: "workStatus",
+                            attributes: ["id", "displayName", "description"],
+                        },
+                        {
+                            model: context.models.WorkType,
+                            as: "workType",
+                            attributes: ["id", "displayName", "description"],
                         },
                     ],
                 });
+
+                if (data) {
+                    data.workCategory = data.dataValues.workCategory;
+                    data.workStaus = data.dataValues.workStatus;
+                    data.workType = data.dataValues.workType;
+                }
 
                 return data;
             },
         }),
 
         /***
-         * activeByName: return one active resource by name
+         * activeByName: return one active work by name
          * args:
          *  name: string
-         * returns a single resource model
+         * returns a single work model
          */
         activeByName: () => ({
-            type: resourceModel,
+            type: workModel,
             args: {
                 name: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
                 await isAdminOrManager({
                     user: context.user,
-                    model: context.models.Resource.name,
+                    model: context.models.Work.name,
                 });
-                const data = await context.models.Resource.findOne({
+                const data = await context.models.Work.findOne({
                     where: {
-                        name: args.name,
+                        displayName: args.name,
                         active: true,
                     },
                     include: [
@@ -154,14 +190,28 @@ export class ResourceGQL {
                             ],
                         },
                         {
-                            model: context.models.Role,
-                            where: {
-                                active: true,
-                            },
-                            attributes: ["id", "name"],
+                            model: context.models.WorkCategory,
+                            as: "workCategory",
+                            attributes: ["id", "displayName", "description"],
+                        },
+                        {
+                            model: context.models.WorkStatus,
+                            as: "workStatus",
+                            attributes: ["id", "displayName", "description"],
+                        },
+                        {
+                            model: context.models.WorkType,
+                            as: "workType",
+                            attributes: ["id", "displayName", "description"],
                         },
                     ],
                 });
+
+                if (data) {
+                    data.workCategory = data.dataValues.workCategory;
+                    data.workStaus = data.dataValues.workStatus;
+                    data.workType = data.dataValues.workType;
+                }
 
                 return data;
             },
@@ -169,28 +219,40 @@ export class ResourceGQL {
     };
     mutations = {
         /**
-         * create: adds new resource
+         * create: adds new work
          * args:
          *  name: string
          *  description: string
-         * Return resource model
+         *  rate: double
+         *  status: int
+         *  type: int
+         *  category: int
+         * Return work model
          */
         create: () => ({
-            type: resourceModel,
+            type: workModel,
             args: {
                 name: { type: GraphQLNonNull(GraphQLString) },
                 description: { type: GraphQLNonNull(GraphQLString) },
+                rate: { type: GraphQLNonNull(GraphQLFloat) },
+                status: { type: GraphQLNonNull(GraphQLInt) },
+                type: { type: GraphQLNonNull(GraphQLInt) },
+                category: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
                 await isAdminOrManager({
                     user: context.user,
-                    model: context.models.Resource.name,
+                    model: context.models.Work.name,
                 });
 
-                // create resource
-                const data = await context.models.Resource.create({
-                    name: args.name,
+                // create work
+                const data = await context.models.Work.create({
+                    displayName: args.name,
                     description: args.description,
+                    rate: args.rate,
+                    workStatusId: args.status,
+                    workTypeId: args.type,
+                    workCategoryId: args.category,
                     createdById: context.user.userId,
                     updatedById: context.user.userId,
                 });
@@ -202,23 +264,20 @@ export class ResourceGQL {
          * deactivate: sets the record inactive
          * args
          *  id: int
-         * Returns resource model
+         * Returns work model
          */
         deactivate: () => ({
-            type: resourceModel,
+            type: workModel,
             args: {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
                 await isAdminOrManager({
                     user: context.user,
-                    model: context.models.Resource.name,
+                    model: context.models.Work.name,
                 });
 
-                const [
-                    undatedNum,
-                    updated,
-                ] = await context.models.Resource.update(
+                const [undatedNum, updated] = await context.models.Work.update(
                     {
                         active: false,
                         updateById: context.user.userId,
@@ -239,4 +298,4 @@ export class ResourceGQL {
     };
 }
 
-export default new ResourceGQL();
+export default new WorkGQL();

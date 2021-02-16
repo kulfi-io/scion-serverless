@@ -4,7 +4,7 @@ import {
     GraphQLNonNull,
     GraphQLList,
 } from "graphql";
-import { isValidAcrossAll } from "../../utils";
+import { isAdminOrManager } from "../../utils";
 import { roleModel } from "./models";
 
 export class RoleGQL {
@@ -17,7 +17,7 @@ export class RoleGQL {
         all: () => ({
             type: new GraphQLList(roleModel),
             resolve: async (input, args, context) => {
-                await isValidAcrossAll({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Role.name,
                 });
@@ -66,7 +66,7 @@ export class RoleGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValidAcrossAll({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Role.name,
                 });
@@ -116,7 +116,7 @@ export class RoleGQL {
                 name: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                await isValidAcrossAll({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Role.name,
                 });
@@ -168,7 +168,7 @@ export class RoleGQL {
                 description: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                await isValidAcrossAll({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Role.name,
                 });
@@ -196,7 +196,7 @@ export class RoleGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                await isValidAcrossAll({
+                await isAdminOrManager({
                     user: context.user,
                     model: context.models.Role.name,
                 });

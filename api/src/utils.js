@@ -23,24 +23,21 @@ const getTokenPayload = (token) => {
 
 /**
  *
- * @param {object} data // {user: user, model:model}
+ * @param {object} data // {user: user, model:model, context: orm}
  * return resource
  */
 const verifyResourceAccess = (data) => {
     const result = getResource(data);
-    if (!result.length)
-        throw new Error(`User does not have access to resource`);
-
-    return result;
+    return result.length > 0;
 };
 
 /**
- *
+//  
  * @param {model} data // {user: user, model: model}
  * return managerial permissions
  */
 const authorizedToManage = (data) => {
-    if (!data || !data.length) throw new Error("Not Authorized");
+    if (!data || !data.length) return false;
 
     const perms = data[0].permissions;
 
@@ -51,7 +48,7 @@ const authorizedToManage = (data) => {
         return true;
     }
 
-    throw new Error("User is not authorized");
+    return false;
 };
 
 /**
@@ -60,7 +57,7 @@ const authorizedToManage = (data) => {
  * return managerial permissions across all
  */
 const authorizedToManageAccrossAll = (data) => {
-    if (!data || !data.length) throw new Error("Not Authorized");
+    if (!data || !data.length) return false;
 
     const perms = data[0].permissions;
 
@@ -68,7 +65,7 @@ const authorizedToManageAccrossAll = (data) => {
         return true;
     }
 
-    throw new Error("User is not authorized");
+    return false;
 };
 
 /**
@@ -77,7 +74,7 @@ const authorizedToManageAccrossAll = (data) => {
  * returns self manage permissions
  */
 const authorizedToManageSelf = (data) => {
-    if (!data || !data.length) throw new Error("Not Authorized");
+    if (!data || !data.length) return false;
 
     const perms = data[0].permissions;
 
@@ -85,7 +82,7 @@ const authorizedToManageSelf = (data) => {
         return true;
     }
 
-    throw new Error("User is not authorized");
+    return false;
 };
 
 /**
@@ -196,6 +193,23 @@ export const isValidAcrossAll = async (data) => {
 
     const resource = verifyResourceAccess(data);
     return authorizedToManageAccrossAll(resource);
+};
+
+/**
+ *
+ * @param {object} data // {user: user, model:modelName}
+ * checks to see if user is authorized
+ * to alter resource
+ * Return Boolean/Error
+ */
+export const isAdminOrManager = async (data) => {
+    if (!data || !data.user) throw new Error("Not Authenticated");
+
+    if (isValid(data) || isValidAcrossAll(data)) {
+        return true;
+    }
+
+    throw new Error("Not Authorized");
 };
 
 /**
