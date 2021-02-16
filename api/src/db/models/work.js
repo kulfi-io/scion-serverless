@@ -40,7 +40,7 @@ const work = (sequelize, DataTypes) => {
         {
             displayName: DataTypes.STRING,
             description: DataTypes.STRING,
-            rate: DataTypes.FLOAT(3, 2),
+            rate: DataTypes.FLOAT,
             workStatusId: DataTypes.INTEGER,
             workTypeId: DataTypes.INTEGER,
             workCategoryId: DataTypes.INTEGER,

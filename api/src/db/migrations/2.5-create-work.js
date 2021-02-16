@@ -16,7 +16,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             rate: {
-                type: Sequelize.FLOAT(3, 2),
+                type: Sequelize.FLOAT,
                 defaultValue: 0.0,
             },
             workStatusId: {
