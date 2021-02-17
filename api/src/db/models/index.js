@@ -12,6 +12,10 @@ import WorkState from "./work-state";
 import WorkStatus from "./work-status";
 import Work from "./work";
 import WorkItem from "./work-item";
+import CommType from "./comm-type";
+import CommStatus from "./comm-status";
+import Comm from "./comm";
+import CommUser from "./comm-user";
 import Sequelize from "sequelize";
 import config from "../config/config";
 
@@ -39,6 +43,10 @@ const models = {
     WorkStatus: WorkStatus(sequelize, Sequelize),
     Work: Work(sequelize, Sequelize),
     WorkItem: WorkItem(sequelize, Sequelize),
+    CommType: CommType(sequelize, Sequelize),
+    CommStatus: CommStatus(sequelize, Sequelize),
+    Comm: Comm(sequelize, Sequelize),
+    CommUser: CommUser(sequelize, Sequelize),
 };
 
 Object.keys(models).forEach((key) => {

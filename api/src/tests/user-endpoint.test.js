@@ -441,7 +441,7 @@ describe("Executive Officer User Endpoint Tests", () => {
             .post(endpoint)
             .send({
                 query: `mutation {
-                    deactivateUser(id: 3) {
+                    deactivateUser(id: 4) {
                         id
                     }
                 }`,
@@ -465,7 +465,7 @@ describe("Executive Officer User Endpoint Tests", () => {
             .post(endpoint)
             .send({
                 query: `mutation {
-                    deactivateUser(id: 2) {
+                    deactivateUser(id: 3) {
                         id
                     }
                 }`,
