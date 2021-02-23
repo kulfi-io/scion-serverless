@@ -8,6 +8,9 @@ import WorkStateGql from "../types/work-state.gql";
 import WorkStatusGql from "../types/work-status.gql";
 import WorkTypeGql from "../types/work-type.gql";
 import WorkGQL from "../types/work.gql";
+import CommStatusGQL from "../types/comm-status.gql";
+import CommTypeGQL from "../types/comm-type.gql";
+import CommGQL from "../types/comm.gql";
 
 const Mutation = new GraphQLObjectType({
     name: "RootMutation",
@@ -32,6 +35,12 @@ const Mutation = new GraphQLObjectType({
         deactivateWorkType: WorkTypeGql.mutations.deactivate(),
         addWork: WorkGQL.mutations.create(),
         deactivateWork: WorkGQL.mutations.deactivate(),
+        addCommStatus: CommStatusGQL.mutations.create(),
+        deactivateCommStatus: CommStatusGQL.mutations.deactivate(),
+        addCommType: CommTypeGQL.mutations.create(),
+        deactivateCommType: CommTypeGQL.mutations.deactivate(),
+        addComm: CommGQL.mutations.create(),
+        deactivateComm: CommGQL.mutations.deactivate(),
     }),
 });
 

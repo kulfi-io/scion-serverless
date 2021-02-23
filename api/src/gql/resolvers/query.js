@@ -8,6 +8,9 @@ import WorkStateGQL from "../types/work-state.gql";
 import WorkStatusGQL from "../types/work-status.gql";
 import WorkTypeGQL from "../types/work-type.gql";
 import WorkGQL from "../types/work.gql";
+import CommStatusGQL from "../types/comm-status.gql";
+import CommTypeGQL from "../types/comm-type.gql";
+import CommGQL from "../types/comm.gql";
 
 const Query = new GraphQLObjectType({
     name: "RootQuery",
@@ -45,6 +48,15 @@ const Query = new GraphQLObjectType({
         works: WorkGQL.queries.all(),
         workById: WorkGQL.queries.activeById(),
         workByName: WorkGQL.queries.activeByName(),
+        commStatuses: CommStatusGQL.queries.all(),
+        commStatusById: CommStatusGQL.queries.activeById(),
+        commStatusByName: CommStatusGQL.queries.activeByName(),
+        commTypes: CommTypeGQL.queries.all(),
+        commTypeById: CommTypeGQL.queries.activeById(),
+        commTypeByName: CommTypeGQL.queries.activeByName(),
+        comms: CommGQL.queries.all(),
+        commById: CommGQL.queries.activeById(),
+        commByName: CommGQL.queries.activeByName(),
     }),
 });
 

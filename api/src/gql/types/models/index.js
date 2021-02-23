@@ -8,19 +8,6 @@ import {
 } from "graphql";
 import { GraphQLScalarDate } from "../../../utils";
 
-//#region Descriptive
-const descriptiveDisplayModel = new GraphQLObjectType({
-    name: "descriptiveDisplayModel",
-    type: "query",
-    fields: {
-        id: { type: GraphQLInt },
-        displayName: { type: GraphQLString },
-        description: { type: GraphQLString },
-    },
-});
-
-//#endregion
-
 //#region User
 const userDisplayModel = new GraphQLObjectType({
     name: "userDisplayModel",
@@ -90,6 +77,33 @@ export const loginModel = new GraphQLObjectType({
         roles: { type: GraphQLList(userRoleResourceModel) },
         token: { type: GraphQLString },
         requestor: { type: GraphQLString },
+    },
+});
+
+//#endregion
+
+//#region Descriptive
+const descriptiveDisplayModel = new GraphQLObjectType({
+    name: "descriptiveDisplayModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+    },
+});
+
+export const descriptiveModel = new GraphQLObjectType({
+    name: "descriptiveModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+        createdBy: { type: userDisplayModel },
+        createdAt: { type: GraphQLScalarDate },
+        updatedBy: { type: userDisplayModel },
+        updatedAt: { type: GraphQLScalarDate },
     },
 });
 
@@ -199,7 +213,7 @@ export const spaceModel = new GraphQLObjectType({
 //#region Work
 
 export const workDescriptiveModel = new GraphQLObjectType({
-    name: "workDisplayModel",
+    name: "workDescriptiveModel",
     type: "query",
     fields: {
         id: { type: GraphQLInt },
@@ -223,6 +237,25 @@ export const workModel = new GraphQLObjectType({
         workStatus: { type: descriptiveDisplayModel },
         workType: { type: descriptiveDisplayModel },
         workCategory: { type: descriptiveDisplayModel },
+        createdBy: { type: userDisplayModel },
+        createdAt: { type: GraphQLScalarDate },
+        updatedBy: { type: userDisplayModel },
+        updatedAt: { type: GraphQLScalarDate },
+    },
+});
+
+//#endregion
+
+//#region Comm
+
+export const commModel = new GraphQLObjectType({
+    name: "commModel",
+    type: "query",
+    fields: {
+        id: { type: GraphQLInt },
+        displayName: { type: GraphQLString },
+        description: { type: GraphQLString },
+        commType: { type: descriptiveDisplayModel },
         createdBy: { type: userDisplayModel },
         createdAt: { type: GraphQLScalarDate },
         updatedBy: { type: userDisplayModel },
